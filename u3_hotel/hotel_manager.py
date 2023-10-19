@@ -71,17 +71,17 @@ def guardar_datos():
     with open(habitaciones_file, mode='w', newline='') as file:
         writer = csv.writer(file)
         for habitacion in habitaciones:
-            writer.writerow(['habitacion', habitacion.numero, habitacion.tipo, habitacion.precio])
+            writer.writerow([habitacion.numero, habitacion.tipo, habitacion.precio])
 
     with open(clientes_file, mode='w', newline='') as file:
         writer = csv.writer(file)
         for cliente in clientes:
-            writer.writerow(['cliente', cliente.nombre, cliente.correo])
+            writer.writerow([cliente.nombre, cliente.correo])
 
     with open(reservas_file, mode='w', newline='') as file:
         writer = csv.writer(file)
         for reserva in reservas:
-            writer.writerow(['reserva', reserva.cliente.correo, reserva.habitacion.numero, reserva.fecha_inicio, reserva.fecha_fin])
+            writer.writerow([reserva.cliente, reserva.habitacion, reserva.fecha_inicio, reserva.fecha_fin])
             
 def cargar_datos():
     global habitaciones, clientes, reservas
@@ -91,29 +91,19 @@ def cargar_datos():
         with open(habitaciones_file, mode='r') as file:
             reader = csv.reader(file)
             for row in reader:
-                if row[0] == 'habitacion':
-                    numero, tipo, precio = map(int, row[1:])
-                    habitacion = Habitacion(numero, tipo, precio)
-                    habitaciones.append(habitacion)
+                habitaciones.append(Habitacion(row[0], row[1], row[2]))
 
     # Load clientes data
     if os.path.exists(clientes_file):
         with open(clientes_file, mode='r') as file:
             reader = csv.reader(file)
             for row in reader:
-                if row[0] == 'cliente':
-                    nombre, correo = row[1:]
-                    cliente = Cliente(nombre, correo)
-                    clientes.append(cliente)
+                print(row[1])
+                clientes.append(Cliente(row[0], row[1]))
 
     # Load reservas data
     if os.path.exists(reservas_file):
         with open(reservas_file, mode='r') as file:
             reader = csv.reader(file)
             for row in reader:
-                if row[0] == 'reserva':
-                    correo_cliente, numero_habitacion, fecha_inicio, fecha_fin = row[1:]
-                    cliente = next(c for c in clientes if c.correo == correo_cliente)
-                    habitacion = next(h for h in habitaciones if h.numero == int(numero_habitacion))
-                    reserva = Reserva(cliente, habitacion, fecha_inicio, fecha_fin)
-                    reservas.append(reserva)
+                reservas.append(Reserva(row[0], row[1], row[2], row[3]))
