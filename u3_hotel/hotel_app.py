@@ -62,11 +62,13 @@ def main():
                 cliente = input("Correo del cliente: ")
                 habitacion = int(input("Numero de la habitacion"))
                 hm.cancelar_reserva(cliente, habitacion)
-                print("Reserva cancelada")          
+                print("Reserva cancelada") 
+                
+            hm.guardar_datos()         
         except ValueError:
             print("Opcion no valida")
             
-    hm.guardar_datos()
+
 if __name__ == "__main__":
     hm.cargar_datos()
     main()

@@ -19,7 +19,7 @@ class Reserva:
     def __init__(self, cliente, habitacion, fecha_inicio, fecha_fin):
         self.cliente = cliente
         self.habitacion = habitacion
-        self.fecha_inicio = datetime.strptime(fecha_inicio, '%y-%m-%d').date()
-        self.fecha_fin = datetime.strptime(fecha_fin, '%y-%m-%d').date()
+        self.fecha_inicio = datetime.strptime(fecha_inicio, '%Y-%m-%d').date()
+        self.fecha_fin = datetime.strptime(fecha_fin, '%Y-%m-%d').date()
         if self.fecha_inicio > self.fecha_fin:
             raise ValueError("Las fechas no son válidas")
